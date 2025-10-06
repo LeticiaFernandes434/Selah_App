@@ -1,0 +1,37 @@
+{
+  "triste": [
+    "Tudo bem fazer uma pausa hoje.",
+    "Inspire calma, expire o peso.",
+    "Permita-se sentir. O sol vai voltar.",
+    "Às vezes, ser gentil consigo é o que mais cura.",
+    "Amanhã é outra chance de recomeçar com leveza."
+  ],
+  "ansioso": [
+    "Respire fundo. Você está seguro agora.",
+    "Nem tudo precisa ser resolvido hoje.",
+    "Acalme o ritmo. O presente é suficiente.",
+    "Você não precisa correr — o tempo é seu aliado.",
+    "Tudo o que é calmo floresce devagar."
+  ],
+  "neutro": [
+    "Apenas estar é suficiente.",
+    "Observe o agora — sem pressa, sem cobrança.",
+    "Equilíbrio também é paz.",
+    "O silêncio também fala.",
+    "Às vezes, o meio do caminho é o lugar mais estável."
+  ],
+  "alegre": [
+    "Guarde este momento de leveza no coração.",
+    "Espalhe a calma que você carrega.",
+    "Sorrir é um ato de coragem e luz.",
+    "Permita-se sentir a beleza do agora.",
+    "Compartilhe a serenidade que habita em você."
+  ],
+  "estressado": [
+    "Solte os ombros. Você não precisa controlar tudo.",
+    "Respire e volte pra você.",
+    "Pausa também é progresso.",
+    "A calma não é ausência de esforço, é presença de equilíbrio.",
+    "Seu valor não está no que você faz, mas no que você é."
+  ]
+}

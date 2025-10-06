@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Selah — Calendário Emocional</title>
+
+  <!-- Fonte e Bootstrap -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --azul-1:#b7c7e3;
+      --azul-2:#9cb3d9;
+      --azul-3:#7f9ccc;
+      --azul-4:#647fb8;
+      --azul-5:#4a639e;
+      --card-bg: rgba(255,255,255,0.92);
+      --texto:#2b2e75;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: 'Cinzel Decorative', serif;
+      background: linear-gradient(135deg, var(--azul-1), var(--azul-2), var(--azul-3));
+      color: var(--texto);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:24px;
+    }
+
+    .topo {
+      max-width:900px;
+      width:100%;
+      text-align:center;
+      margin-bottom:16px;
+    }
+
+    .mes-box{
+      background: var(--card-bg);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.08);
+      width:100%;
+      max-width:900px;
+    }
+
+    .mes-titulo {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .mes-info {
+      text-align:center;
+      margin-top:10px;
+      color: #2b2e75c9;
+      font-style: italic;
+    }
+
+    .btn-nav {
+      background: transparent;
+      border: 2px solid rgba(43,46,117,0.12);
+      border-radius: 10px;
+      color: var(--texto);
+      padding:6px 10px;
+    }
+
+    .calendar {
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:10px;
+    }
+
+    .weekdays {
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .weekday {
+      text-align:center;
+      font-weight:700;
+      color:#2b2e75b3;
+    }
+
+    .day {
+      background: #f0f4fb;
+      border-radius:12px;
+      min-height:72px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      align-items:center;
+      padding:8px 6px;
+      position:relative;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    .day:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
+
+    .day-number {
+      font-weight:700;
+      color:var(--texto);
+      margin-bottom:6px;
+    }
+
+    /* bolinha indicador embaixo */
+    .dot {
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      position:absolute;
+      bottom:8px;
+      left:50%;
+      transform:translateX(-50%);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+
+    .info-panel {
+      margin-top:18px;
+      width:100%;
+      max-width:900px;
+      background:var(--card-bg);
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.06);
+      display:none;
+    }
+
+    .small-muted { color:#2b2e75b3; font-style:italic; }
+
+    /* responsivo */
+    @media (max-width:720px){
+      .day { min-height:60px; padding:6px; }
+      .dot { bottom:6px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar Selah -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  font-family: 'Cinzel Decorative', serif;
+">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold" href="index.html" style="color:#2b2e75; font-size:1.4rem;">
+      Selah
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navSelah">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navSelah">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item mx-2"><a class="nav-link" href="index.html">Início</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="humor.html">Humor</a></li>
+        <li class="nav-item mx-2"><a class="nav-link active" href="calendario.html">Calendário</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="dicas.html">Dicas</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- espaço extra abaixo da navbar -->
+<div style="height:80px;"></div>
+
+
+  <div class="topo">
+    <div class="mes-box">
+      <div class="mes-titulo">
+        <div>
+          <button id="prevMonth" class="btn btn-nav">&larr;</button>
+          <span style="margin:0 12px; font-size:1.25rem;" id="mesAno"></span>
+          <button id="nextMonth" class="btn btn-nav">&rarr;</button>
+        </div>
+        <div>
+          <button id="btnHoje" class="btn btn-sm btn-outline-secondary">Ir para hoje</button>
+        </div>
+      </div>
+
+      <div class="mes-info" id="mesPoema">“Cada dia é um tom na aquarela da sua mente.”</div>
+
+      <div class="weekdays" style="margin-top:14px;">
+        <!-- Monday-first labels -->
+        <div class="weekday">Seg</div>
+        <div class="weekday">Ter</div>
+        <div class="weekday">Qua</div>
+        <div class="weekday">Qui</div>
+        <div class="weekday">Sex</div>
+        <div class="weekday">Sáb</div>
+        <div class="weekday">Dom</div>
+      </div>
+
+      <div class="calendar" id="calendar"></div>
+    </div>
+  </div>
+
+  <!-- Info / ações -->
+  <div class="info-panel" id="infoPanel">
+    <div id="painelConteudo"></div>
+  </div>
+
+  <!-- Modal Bootstrap para ver / adicionar / editar -->
+  <div class="modal fade" id="modalRegistro" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius:14px;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">Registro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formModal">
+            <div class="mb-2 small-muted">Data</div>
+            <div class="mb-3">
+              <input type="text" id="modalData" class="form-control" readonly />
+            </div>
+
+            <div class="mb-2 small-muted">Emoção</div>
+            <div class="mb-3">
+              <select id="modalEmocao" class="form-select" required>
+                <option value="">Selecione a emoção...</option>
+                <option value="Feliz" data-cor="#f8c8dc">Feliz</option>
+                <option value="Calmo" data-cor="#fff6a3">Calmo</option>
+                <option value="Neutro" data-cor="#9ad1c9">Neutro</option>
+                <option value="Ansioso" data-cor="#ffd6a5">Ansioso</option>
+                <option value="Triste" data-cor="#a3b8ff">Triste</option>
+              </select>
+            </div>
+
+            <div class="mb-2 small-muted">Motivo</div>
+            <div class="mb-3">
+              <select id="modalMotivo" class="form-select" required>
+                <option value="">Selecione...</option>
+                <option value="pessoal">Pessoal</option>
+                <option value="escola">Escola</option>
+                <option value="amigos">Amigos</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="mb-2 small-muted">Mensagem (opcional)</div>
+            <div class="mb-3">
+              <textarea id="modalMensagem" class="form-control" rows="3" placeholder="Compartilhe algo..."></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <button type="button" id="btnDelete" class="btn btn-outline-danger me-2">Apagar</button>
+              </div>
+              <div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // -------- utilitários de data/format --------
+    function pad(n){ return n.toString().padStart(2,'0'); }
+    function formatDDMMYYYY(d,m,y){ return pad(d) + '/' + pad(m) + '/' + y; }
+
+    // converter dd/mm/yyyy para objeto {d,m,y}
+    function parseDMY(str){
+      const parts = str.split('/');
+      return { d: parseInt(parts[0],10), m: parseInt(parts[1],10), y: parseInt(parts[2],10) };
+    }
+
+    // retorna índice do dia da semana começando na segunda (0=seg)
+    function weekdayIndexMonday(y,m,d){
+      // JS month index zero-based
+      const idx = new Date(y, m-1, d).getDay(); // 0 = dom
+      return (idx + 6) % 7; // convert: dom->6, seg->0 ...
+    }
+
+    // -------- registros no localStorage ----------
+    const STORAGE_KEY = 'registrosSelah';
+
+    function getRegistros(){
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    }
+    function saveRegistros(arr){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+    }
+
+    // -------- calendário variáveis --------
+    let hoje = new Date();
+    let currentMonth = hoje.getMonth() + 1; // 1..12
+    let currentYear = hoje.getFullYear();
+
+    const calendarEl = document.getElementById('calendar');
+    const mesAnoEl = document.getElementById('mesAno');
+    const mesPoemaEl = document.getElementById('mesPoema');
+
+    const modalEl = new bootstrap.Modal(document.getElementById('modalRegistro'));
+    const modalDataInput = document.getElementById('modalData');
+    const modalEmocao = document.getElementById('modalEmocao');
+    const modalMotivo = document.getElementById('modalMotivo');
+    const modalMensagem = document.getElementById('modalMensagem');
+    const btnDelete = document.getElementById('btnDelete');
+    const formModal = document.getElementById('formModal');
+
+    // abre calendário
+    function renderCalendar(month, year){
+      calendarEl.innerHTML = '';
+      const firstDay = new Date(year, month-1, 1);
+      const daysInMonth = new Date(year, month, 0).getDate();
+
+      // qual índice do primeiro dia (segunda=0)
+      const firstIdx = (firstDay.getDay() + 6) % 7;
+
+      // preencher células vazias antes do dia 1
+      for(let i=0;i<firstIdx;i++){
+        const empty = document.createElement('div');
+        empty.classList.add('day');
+        empty.style.background = 'transparent';
+        empty.style.boxShadow = 'none';
+        empty.style.cursor = 'default';
+        calendarEl.appendChild(empty);
+      }
+
+      // pegar registros do storage
+      const registros = getRegistros();
+
+      // criar dias
+      for(let d=1; d <= daysInMonth; d++){
+        const cell = document.createElement('div');
+        cell.classList.add('day');
+        const num = document.createElement('div');
+        num.classList.add('day-number');
+        num.textContent = d;
+        cell.appendChild(num);
+
+        const fullDate = formatDDMMYYYY(d, month, year);
+
+        // verificar se existe registro para essa data
+        const registro = registros.find(r => r.data === fullDate);
+
+        if(registro){
+          // bolinha
+          const dot = document.createElement('div');
+          dot.classList.add('dot');
+          dot.style.backgroundColor = registro.cor || '#9ad1c9';
+          cell.appendChild(dot);
+        }
+
+        // clicar no dia
+        cell.addEventListener('click', () => {
+          openModalForDate(fullDate, registro);
+        });
+
+        calendarEl.appendChild(cell);
+      }
+
+      // atualizar título do mês
+      const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+      mesAnoEl.textContent = monthNames[month-1] + ' de ' + year;
+
+      // poema customizado (exemplo)
+      mesPoemaEl.textContent = `“Cada dia é um tom na aquarela da sua mente.”`;
+    }
+
+    // abrir modal para ver/editar/adicionar
+    function openModalForDate(dateStr, registro){
+      modalDataInput.value = dateStr;
+
+      if(registro){
+        // preencher com registro atual
+        modalEmocao.value = registro.emocao || '';
+        modalMotivo.value = registro.motivo || '';
+        modalMensagem.value = registro.mensagem || '';
+        btnDelete.style.display = 'inline-block';
+        document.getElementById('modalTitle').textContent = 'Visualizar / Editar registro';
+      } else {
+        // limpar para criar novo
+        modalEmocao.value = '';
+        modalMotivo.value = '';
+        modalMensagem.value = '';
+        btnDelete.style.display = 'none';
+        document.getElementById('modalTitle').textContent = 'Adicionar registro';
+      }
+
+      modalEl.show();
+    }
+
+    // salvar (novo ou editar)
+    formModal.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const data = modalDataInput.value;
+      const emocao = modalEmocao.value;
+      const motivo = modalMotivo.value;
+      const mensagem = modalMensagem.value;
+
+      if(!emocao || !motivo){
+        alert('Por favor, escolha a emoção e o motivo.');
+        return;
+      }
+
+      // pegar cor escolhida a partir do option selecionado
+      const selectedOpt = modalEmocao.options[modalEmocao.selectedIndex];
+      const cor = selectedOpt.dataset.cor || '#9ad1c9';
+
+      let registros = getRegistros();
+
+      // checar se já existe e substituir
+      const idx = registros.findIndex(r => r.data === data);
+      const novo = { data, emocao, cor, motivo, mensagem };
+
+      if(idx >= 0){
+        registros[idx] = novo;
+      } else {
+        registros.push(novo);
+      }
+
+      saveRegistros(registros);
+      modalEl.hide();
+      renderCalendar(currentMonth, currentYear);
+    });
+
+    // apagar registro
+    btnDelete.addEventListener('click', () => {
+      if(!confirm('Deseja apagar este registro? Essa ação não pode ser desfeita.')) return;
+      const data = modalDataInput.value;
+      let registros = getRegistros();
+      registros = registros.filter(r => r.data !== data);
+      saveRegistros(registros);
+      modalEl.hide();
+      renderCalendar(currentMonth, currentYear);
+    });
+
+    // navegação de mês
+    document.getElementById('prevMonth').addEventListener('click', () => {
+      currentMonth--;
+      if(currentMonth < 1){ currentMonth = 12; currentYear--; }
+      renderCalendar(currentMonth, currentYear);
+    });
+
+    document.getElementById('nextMonth').addEventListener('click', () => {
+      currentMonth++;
+      if(currentMonth > 12){ currentMonth = 1; currentYear++; }
+      renderCalendar(currentMonth, currentYear);
+    });
+
+    document.getElementById('btnHoje').addEventListener('click', () => {
+      hoje = new Date();
+      currentMonth = hoje.getMonth() + 1;
+      currentYear = hoje.getFullYear();
+      renderCalendar(currentMonth, currentYear);
+    });
+
+    // inicializar com mês atual
+    renderCalendar(currentMonth, currentYear);
+  </script>
+</body>
+</html>

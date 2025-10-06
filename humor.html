@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selah - Como você se sente hoje?</title>
+
+  <!-- Fonte e Bootstrap -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #b7c7e3, #9cb3d9, #7f9ccc, #647fb8, #4a639e);
+      font-family: 'Cinzel Decorative', serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #2b2e75;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container-selah {
+      background-color: #ffffffd0;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+      max-width: 450px;
+      width: 100%;
+      padding: 35px 25px;
+      text-align: center;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #2b2e75cc;
+      font-style: italic;
+      margin-bottom: 25px;
+    }
+
+    /* ===== Slider ===== */
+    #emoji {
+      font-size: 3rem;
+      transition: all 0.3s ease;
+      margin-bottom: 10px;
+    }
+
+    #nomeEmocao {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      transition: color 0.3s ease;
+    }
+
+    .form-range {
+      width: 100%;
+      accent-color: #5466a0;
+      height: 8px;
+    }
+
+    /* ===== Botão ===== */
+    .btn-selah {
+      background-color: #5466a0;
+      color: white;
+      border-radius: 25px;
+      padding: 10px 30px;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+      margin-top: 15px;
+    }
+
+    .btn-selah:hover {
+      background-color: #2b2e75;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+
+      body {
+  padding-top: 90px; /* dá espaço fixo abaixo da navbar */
+}
+
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Navbar Selah -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  font-family: 'Cinzel Decorative', serif;
+">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold" href="index.html" style="color:#2b2e75; font-size:1.4rem;">
+      Selah
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navSelah">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navSelah">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item mx-2"><a class="nav-link" href="index.html">Início</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="sobre.html">Sobre</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="humor.html">Humor</a></li>
+        <li class="nav-item mx-2"><a class="nav-link active" href="calendario.html">Calendário</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="dicas.html">Dicas</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <div class="container-selah">
+    <h1>Como você se sente hoje?</h1>
+    <p>Deslize o controle e descubra o tom do seu momento.</p>
+
+    <div id="emoji">😐</div>
+    <div id="nomeEmocao">Neutro</div>
+
+    <input type="range" class="form-range" min="1" max="5" value="3" id="sliderEmocao">
+
+    <!-- Formulário -->
+    <form id="form-humor" class="mt-4">
+      <div class="mb-3">
+        <label for="motivo" class="form-label">Motivo principal</label>
+        <select id="motivo" class="form-select" required>
+          <option value="">Selecione...</option>
+          <option value="pessoal">Pessoal</option>
+          <option value="escola">Escola</option>
+          <option value="amigos">Amigos</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="mensagem" class="form-label">Quer escrever algo?</label>
+        <textarea id="mensagem" class="form-control" rows="3" placeholder="Compartilhe o que desejar..."></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-selah w-100">Salvar meu dia</button>
+    </form>
+  </div>
+
+  <script>
+    const slider = document.getElementById('sliderEmocao');
+    const emoji = document.getElementById('emoji');
+    const nome = document.getElementById('nomeEmocao');
+    const body = document.body;
+
+    const emocoes = {
+      1: { nome: 'Triste', cor: '#a3b8ff', emoji: '😢' },
+      2: { nome: 'Ansioso', cor: '#ffd6a5', emoji: '😰' },
+      3: { nome: 'Neutro', cor: '#9ad1c9', emoji: '😐' },
+      4: { nome: 'Calmo', cor: '#fff6a3', emoji: '😌' },
+      5: { nome: 'Feliz', cor: '#f8c8dc', emoji: '😊' }
+    };
+
+    function atualizarEmocao(valor) {
+      const e = emocoes[valor];
+      emoji.textContent = e.emoji;
+      nome.textContent = e.nome;
+      nome.style.color = e.cor;
+      body.style.background = `linear-gradient(to bottom right, ${e.cor}, #4a639e)`;
+    }
+
+    slider.addEventListener('input', (e) => {
+      atualizarEmocao(e.target.value);
+    });
+
+    // Salvar no localStorage
+    document.getElementById('form-humor').addEventListener('submit', function(e){
+      e.preventDefault();
+
+      const valor = slider.value;
+      const emocao = emocoes[valor].nome;
+      const cor = emocoes[valor].cor;
+      const motivo = document.getElementById('motivo').value;
+      const mensagem = document.getElementById('mensagem').value;
+      const data = new Date().toLocaleDateString();
+
+      const registro = {
+        data: data,
+        emocao: emocao,
+        cor: cor,
+        motivo: motivo,
+        mensagem: mensagem
+      };
+
+      let registros = JSON.parse(localStorage.getItem('registrosSelah')) || [];
+      registros.push(registro);
+      localStorage.setItem('registrosSelah', JSON.stringify(registros));
+
+      alert("Dia registrado com sucesso 💙");
+      window.location.href = "calendario.html";
+    });
+
+    // Iniciar com estado neutro
+    atualizarEmocao(3);
+  </script>
+</body>
+</html>
