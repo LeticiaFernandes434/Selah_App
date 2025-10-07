@@ -15,11 +15,12 @@
       font-family: 'Cinzel Decorative', serif;
       min-height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column; /* 👈 permite layout em coluna */
+      justify-content: flex-start; /* 👈 conteúdo começa no topo */
       align-items: center;
       color: #2b2e75;
       margin: 0;
-      padding: 20px;
+      padding: 100px 20px 20px; /* espaço pro topo + margem geral */
     }
 
     .container-selah {
@@ -81,12 +82,26 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
+    }
 
-      body {
-  padding-top: 90px; /* dá espaço fixo abaixo da navbar */
+    .footer {
+  background-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px);
+  padding: 20px 0;
+  color: white;
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
-    }
+    .footer hr {
+  width: 80px;
+  border: 2px solid #E6D9F7;
+  margin: 15px auto;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+
   </style>
 </head>
 
@@ -110,16 +125,15 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navSelah">
       <ul class="navbar-nav mb-2 mb-lg-0">
-        <li class="nav-item mx-2"><a class="nav-link" href="index.html">Início</a></li>
-        <li class="nav-item mx-2"><a class="nav-link" href="sobre.html">Sobre</a></li>
-        <li class="nav-item mx-2"><a class="nav-link" href="humor.html">Humor</a></li>
+        <li class="nav-item"><a class="nav-link" href="início.html">Início</a></li>
+        <li class="nav-item"><a class="nav-link" href="equipe.html">Equipe</a></li>
+        <li class="nav-item mx-2"><a class="nav-link active" href="humor.html">Humor</a></li>
         <li class="nav-item mx-2"><a class="nav-link active" href="calendario.html">Calendário</a></li>
         <li class="nav-item mx-2"><a class="nav-link" href="dicas.html">Dicas</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
 
   <div class="container-selah">
     <h1>Como você se sente hoje?</h1>
@@ -178,7 +192,6 @@
       atualizarEmocao(e.target.value);
     });
 
-    // Salvar no localStorage
     document.getElementById('form-humor').addEventListener('submit', function(e){
       e.preventDefault();
 
@@ -189,14 +202,7 @@
       const mensagem = document.getElementById('mensagem').value;
       const data = new Date().toLocaleDateString();
 
-      const registro = {
-        data: data,
-        emocao: emocao,
-        cor: cor,
-        motivo: motivo,
-        mensagem: mensagem
-      };
-
+      const registro = { data, emocao, cor, motivo, mensagem };
       let registros = JSON.parse(localStorage.getItem('registrosSelah')) || [];
       registros.push(registro);
       localStorage.setItem('registrosSelah', JSON.stringify(registros));
@@ -205,8 +211,13 @@
       window.location.href = "calendario.html";
     });
 
-    // Iniciar com estado neutro
     atualizarEmocao(3);
   </script>
+
+ <footer>
+  <hr>
+  <p>Selah © 2025 — Projeto de Saúde Mental Estudantil</p>
+</footer>
+
 </body>
 </html>
