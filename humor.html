@@ -1,113 +1,151 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Selah - Como você se sente hoje?</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Selah — Como você se sente hoje?</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Fonte e Bootstrap -->
+<!-- Fonte e Bootstrap -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <style>
-    body {
-      background: linear-gradient(to bottom right, #b7c7e3, #9cb3d9, #7f9ccc, #647fb8, #4a639e);
-      font-family: 'Cinzel Decorative', serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column; /* 👈 permite layout em coluna */
-      justify-content: flex-start; /* 👈 conteúdo começa no topo */
-      align-items: center;
-      color: #2b2e75;
-      margin: 0;
-      padding: 100px 20px 20px; /* espaço pro topo + margem geral */
-    }
 
-    .container-selah {
-      background-color: #ffffffd0;
-      border-radius: 20px;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
-      max-width: 450px;
-      width: 100%;
-      padding: 35px 25px;
-      text-align: center;
-      animation: fadeIn 1.2s ease-in-out;
-    }
+<style>
+  :root{
+    --az1: #b7c7e3;
+    --az2: #9cb3d9;
+    --az3: #7f9ccc;
+    --az4: #647fb8;
+    --az5: #4a639e;
+    --color: #7cc3ff;
+    --r: 124; --g: 195; --b: 255;
+    --pulse-duration: 2000ms;
+    --pulse-scale: 1.12;
+    --pulse-ease: cubic-bezier(.4,.0,.2,1);
+  }
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
+  body {
+    margin:0;
+    font-family: "Cinzel", serif;
+    background: linear-gradient(to bottom right, var(--az1), var(--az2), var(--az3), var(--az4), var(--az5));
+    color: #2b2e75;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+  }
 
-    p {
-      color: #2b2e75cc;
-      font-style: italic;
-      margin-bottom: 25px;
-    }
+  .container {
+    background: rgba(255,255,255,0.95);
+    border-radius:16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    padding:28px;
+    max-width:520px;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
 
-    /* ===== Slider ===== */
-    #emoji {
-      font-size: 3rem;
-      transition: all 0.3s ease;
-      margin-bottom: 10px;
-    }
+  .ball {
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.22), transparent 25%),
+                linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.08) 80%),
+                var(--color);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    animation: breathe var(--pulse-duration) infinite var(--pulse-ease);
+    transition:box-shadow 320ms ease, transform 320ms ease;
+    margin-bottom:14px;
+    outline:none;
+  }
 
-    #nomeEmocao {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      transition: color 0.3s ease;
-    }
+  .ball::after{
+    content:'';
+    position:absolute;
+    inset:12% 12%;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.14), transparent 25%);
+    mix-blend-mode: screen;
+  }
 
-    .form-range {
-      width: 100%;
-      accent-color: #5466a0;
-      height: 8px;
-    }
+  @keyframes breathe {
+    0%{ transform:scale(1); box-shadow:0 12px 28px rgba(var(--r),var(--g),var(--b),0.12); }
+    50%{ transform:scale(var(--pulse-scale)); box-shadow:0 26px 48px rgba(var(--r),var(--g),var(--b),0.22); }
+    100%{ transform:scale(1); box-shadow:0 12px 28px rgba(var(--r),var(--g),var(--b),0.12); }
+  }
 
-    /* ===== Botão ===== */
-    .btn-selah {
-      background-color: #5466a0;
-      color: white;
-      border-radius: 25px;
-      padding: 10px 30px;
-      font-size: 1.1rem;
-      transition: background-color 0.3s ease;
-      margin-top: 15px;
-    }
+  h1 { margin:0 0 8px 0; color:#2b2e75; font-size:1.4rem; }
+  .sub { color:#2b2e75; font-size:0.95rem; margin-bottom:8px; }
 
-    .btn-selah:hover {
-      background-color: #2b2e75;
-    }
+  input[type=range] {
+    -webkit-appearance:none;
+    width:100%;
+    height:10px;
+    background:transparent;
+    margin:8px 0 6px 0;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    height:10px;
+    border-radius:8px;
+    background: linear-gradient(90deg, rgba(43,46,117,0.18), rgba(43,46,117,0.06));
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance:none;
+    width:22px;height:22px;border-radius:50%;
+    background:#fff;
+    border:3px solid rgba(43,46,117,0.18);
+    margin-top:-6px;
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  .ticks { width:100%; display:flex; justify-content:space-between; font-size:13px; color:#2b2e75; font-weight:600; margin-top:6px; }
 
-    .footer {
-  background-color: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(6px);
-  padding: 20px 0;
-  color: white;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
+  .motivos { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:12px; }
+  .motivo {
+    background: rgba(43,46,117,0.62);
+    color:#fff;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:14px;
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .motivo.selected { background: rgba(255,255,255,0.14); color:#2b2e75; transform:translateY(-3px); }
 
-    .footer hr {
-  width: 80px;
-  border: 2px solid #E6D9F7;
-  margin: 15px auto;
-  border-radius: 2px;
-  opacity: 0.8;
-}
+  textarea {
+    width:100%;
+    min-height:90px;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid rgba(43,46,117,0.12);
+    resize:vertical;
+    margin-top:14px;
+    font-family: inherit;
+  }
 
+  .actions { width:100%; display:flex; gap:10px; justify-content:space-between; margin-top:14px; }
+  .btn-ghost { background:transparent; border:1px solid rgba(43,46,117,0.12); padding:8px 12px; border-radius:8px; cursor:pointer; color:#2b2e75; }
+  .btn-primary { background:#5466a0; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
+  .btn-danger { background:#ff6b6b; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
 
-  </style>
+  .date-info { font-size:0.95rem; color:#2b2e75; margin-bottom:6px; }
+
+  @media (max-width:560px){
+    .container { padding:20px; max-width:420px; }
+    .ball { width:140px; height:140px; }
+  }
+</style>
 </head>
-
 <body>
-
-<!-- Navbar Selah -->
+  <!-- Navbar Selah -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(12px);
@@ -125,99 +163,280 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navSelah">
       <ul class="navbar-nav mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="início.html">Início</a></li>
+        <li class="nav-item"><a class="nav-link active" href="início.html">Início</a></li>
         <li class="nav-item"><a class="nav-link" href="equipe.html">Equipe</a></li>
-        <li class="nav-item mx-2"><a class="nav-link active" href="humor.html">Humor</a></li>
-        <li class="nav-item mx-2"><a class="nav-link active" href="calendario.html">Calendário</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="humor.html">Humor</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="calendario.html">Calendário</a></li>
         <li class="nav-item mx-2"><a class="nav-link" href="dicas.html">Dicas</a></li>
+        <li class="nav-item mx-2"><a class="nav-link active" href="suporte.html">Suporte</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-  <div class="container-selah">
-    <h1>Como você se sente hoje?</h1>
-    <p>Deslize o controle e descubra o tom do seu momento.</p>
 
-    <div id="emoji">😐</div>
-    <div id="nomeEmocao">Neutro</div>
 
-    <input type="range" class="form-range" min="1" max="5" value="3" id="sliderEmocao">
+  <div class="container" role="main">
+    <h1>Registro emocional</h1>
+    <div id="dateInfo" class="date-info">Data: —</div>
 
-    <!-- Formulário -->
-    <form id="form-humor" class="mt-4">
-      <div class="mb-3">
-        <label for="motivo" class="form-label">Motivo principal</label>
-        <select id="motivo" class="form-select" required>
-          <option value="">Selecione...</option>
-          <option value="pessoal">Pessoal</option>
-          <option value="escola">Escola</option>
-          <option value="amigos">Amigos</option>
-          <option value="outro">Outro</option>
-        </select>
+    <div id="ball" class="ball" role="img" aria-label="Bolinha de humor"></div>
+    <div id="ballLabel" class="sub">Selecione um humor</div>
+
+    <input id="moodSlider" type="range" min="0" max="5" step="1" value="0" aria-label="Seletor de emoção">
+    <div class="ticks" id="ticks"></div>
+
+    <div class="motivos" id="motivosContainer" aria-live="polite"></div>
+
+    <textarea id="mensagem" placeholder="Se quiser, escreva algo sobre seu dia..."></textarea>
+
+    <div class="actions">
+      <button id="backBtn" class="btn-ghost">Voltar ao calendário</button>
+      <div style="display:flex; gap:8px;">
+        <button id="deleteBtn" class="btn-danger" style="display:none;">Apagar</button>
+        <button id="saveBtn" class="btn-primary">Salvar</button>
       </div>
-
-      <div class="mb-3">
-        <label for="mensagem" class="form-label">Quer escrever algo?</label>
-        <textarea id="mensagem" class="form-control" rows="3" placeholder="Compartilhe o que desejar..."></textarea>
-      </div>
-
-      <button type="submit" class="btn btn-selah w-100">Salvar meu dia</button>
-    </form>
+    </div>
   </div>
 
-  <script>
-    const slider = document.getElementById('sliderEmocao');
-    const emoji = document.getElementById('emoji');
-    const nome = document.getElementById('nomeEmocao');
-    const body = document.body;
+<script>
+/* ----------------- dados de humor ----------------- */
+const moods = [
+  { key:'calma', label:'Calma — respiração lenta e suave', color:'#8ec6ff', duration:'3200ms', scale:1.12 },
+  { key:'felicidade', label:'Felicidade — pulsação média e luminosa', color:'#ffd34d', duration:'1800ms', scale:1.14 },
+  { key:'tristeza', label:'Tristeza — respiração lenta e discreta', color:'#4b6b9a', duration:'3800ms', scale:1.06 },
+  { key:'raiva', label:'Irritado — pulsação forte e aguda', color:'#ff4d4d', duration:'900ms', scale:1.18 },
+  { key:'amor', label:'Amor — pulsação firme e constante', color:'#ff9cc4', duration:'2000ms', scale:1.10 },
+  { key:'ansiedade', label:'Ansioso — pulso irregular e tenso', color:'#ff7a36', duration:'700ms', scale:1.16 }
+];
 
-    const emocoes = {
-      1: { nome: 'Triste', cor: '#a3b8ff', emoji: '😢' },
-      2: { nome: 'Ansioso', cor: '#ffd6a5', emoji: '😰' },
-      3: { nome: 'Neutro', cor: '#9ad1c9', emoji: '😐' },
-      4: { nome: 'Calmo', cor: '#fff6a3', emoji: '😌' },
-      5: { nome: 'Feliz', cor: '#f8c8dc', emoji: '😊' }
-    };
+const motivosMap = {
+  felicidade: ["Conquista","Amigos","Família","Elogio","Sucesso","Descanso","Sol","Música","Viagem","Diversão","Risada","Passeio","Amor","Almoço","Vitória"],
+  tristeza: ["Despedida","Saudade","Discussão","Solidão","Falha","Lembrança","Perda","Silêncio","Distância","Rejeição","Falta","Fracasso","Chuva","Desânimo","Dúvida"],
+  raiva: ["Injustiça","Atraso","Trânsito","Discussão","Mentira","Erro","Falta","Falha","Desrespeito","Barulho","Imprevisto","Frustração","Desordem","Caos","Impaciência"],
+  calma: ["Silêncio","Natureza","Respiração","Reflexão","Equilíbrio","Solidão","Paz","Leitura","Meditação","Tempo","Tranquilidade","Caminhada","Rotina","Confiança","Descanso"],
+  ansiedade: ["Prova","Entrevista","Apresentação","Mudança","Espera","Resultado","Encontro","Desafio","Projeto","Decisão","Viagem","Cirurgia","Evento","Futuro","Incerteza"],
+  amor: ["Amor","Música","Sonho","Encontro","Paixão","Viagem","Surpresa","Festa","Amigos","Planos","Esperança","Alegria","Mensagem","Carinho","Presente"]
+};
 
-    function atualizarEmocao(valor) {
-      const e = emocoes[valor];
-      emoji.textContent = e.emoji;
-      nome.textContent = e.nome;
-      nome.style.color = e.cor;
-      body.style.background = `linear-gradient(to bottom right, ${e.cor}, #4a639e)`;
+/* ---------- util helpers ---------- */
+function pad(n){ return n.toString().padStart(2,'0'); }
+function isoToDDMMYYYY(iso){
+  if(!iso) return null;
+  const parts = iso.split('-');
+  if(parts.length !== 3) return null;
+  return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+function ddmmyyyyToday(){
+  const d = new Date();
+  return pad(d.getDate()) + '/' + pad(d.getMonth()+1) + '/' + d.getFullYear();
+}
+function hexToRgb(hex){
+  const h = hex.replace('#','');
+  const bigint = parseInt(h,16);
+  return { r:(bigint>>16)&255, g:(bigint>>8)&255, b:bigint&255 };
+}
+
+/* ---------- storage ---------- */
+const STORAGE_KEY = 'registrosSelah';
+function getRegistros(){ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+function saveRegistros(arr){ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+
+/* ---------- elements ---------- */
+const params = new URLSearchParams(window.location.search);
+const dateParamISO = params.get('date'); // expected YYYY-MM-DD when provided by calendario
+const editingDateDisplay = dateParamISO ? isoToDDMMYYYY(dateParamISO) : ddmmyyyyToday();
+
+const ball = document.getElementById('ball');
+const ballLabel = document.getElementById('ballLabel');
+const ticksEl = document.getElementById('ticks');
+const slider = document.getElementById('moodSlider');
+const motivosContainer = document.getElementById('motivosContainer');
+const mensagemEl = document.getElementById('mensagem');
+const saveBtn = document.getElementById('saveBtn');
+const deleteBtn = document.getElementById('deleteBtn');
+const backBtn = document.getElementById('backBtn');
+const dateInfo = document.getElementById('dateInfo');
+
+let selectedMotivos = new Set();
+let interacted = false; // user selected mood
+
+/* render ticks */
+(function renderTicks(){
+  ticksEl.innerHTML = '';
+  moods.forEach(m=>{
+    const span = document.createElement('span');
+    span.textContent = m.key.charAt(0).toUpperCase() + m.key.slice(1);
+    ticksEl.appendChild(span);
+  });
+})();
+
+/* set mood by index (0..5) */
+function setMoodByIndex(i, noPopulateMotivos){
+  interacted = true;
+  const cfg = moods[i];
+  if(!cfg) return;
+  const rgb = hexToRgb(cfg.color);
+  document.documentElement.style.setProperty('--color', cfg.color);
+  document.documentElement.style.setProperty('--r', rgb.r);
+  document.documentElement.style.setProperty('--g', rgb.g);
+  document.documentElement.style.setProperty('--b', rgb.b);
+  document.documentElement.style.setProperty('--pulse-duration', cfg.duration);
+  document.documentElement.style.setProperty('--pulse-scale', cfg.scale);
+
+  ballLabel.textContent = cfg.label;
+  // update ball color directly
+  ball.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.22), transparent 25%), linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.08) 80%), ${cfg.color}`;
+
+  if(!noPopulateMotivos) populateMotivos(cfg.key);
+}
+
+/* populate motivos and (optionally) preselect */
+function populateMotivos(key, preselectArray){
+  motivosContainer.innerHTML = '';
+  selectedMotivos.clear();
+  const list = motivosMap[key] || [];
+  list.forEach(text=>{
+    const div = document.createElement('div');
+    div.className = 'motivo';
+    div.tabIndex = 0;
+    div.textContent = text;
+
+    div.addEventListener('click', ()=> toggleMotivo(div, text));
+    div.addEventListener('keydown', (ev)=> { if(ev.key==='Enter' || ev.key===' ') { ev.preventDefault(); toggleMotivo(div,text); } });
+
+    // preselect if requested
+    if(preselectArray && preselectArray.includes(text)){
+      selectedMotivos.add(text);
+      div.classList.add('selected');
     }
 
-    slider.addEventListener('input', (e) => {
-      atualizarEmocao(e.target.value);
-    });
+    motivosContainer.appendChild(div);
+  });
+}
 
-    document.getElementById('form-humor').addEventListener('submit', function(e){
-      e.preventDefault();
+/* toggle */
+function toggleMotivo(el,text){
+  if(selectedMotivos.has(text)){
+    selectedMotivos.delete(text);
+    el.classList.remove('selected');
+  } else {
+    selectedMotivos.add(text);
+    el.classList.add('selected');
+  }
+}
 
-      const valor = slider.value;
-      const emocao = emocoes[valor].nome;
-      const cor = emocoes[valor].cor;
-      const motivo = document.getElementById('motivo').value;
-      const mensagem = document.getElementById('mensagem').value;
-      const data = new Date().toLocaleDateString();
+/* find mood index by saved emocao string like "Calma", "Felicidade", "Tristeza", "Raiva", "Amor", "Ansiedade" */
+function findMoodIndexByEmocao(saved){
+  if(!saved) return 0;
+  const s = saved.toLowerCase();
+  for(let i=0;i<moods.length;i++){
+    if(moods[i].key === s) return i;
+    // handle a few synonyms
+    if(s.includes('feliz') && moods[i].key==='felicidade') return i;
+    if(s.includes('ans') && moods[i].key==='ansiedade') return i;
+    if(s.includes('raiva') && moods[i].key==='raiva') return i;
+  }
+  // fallback try match by label word
+  for(let i=0;i<moods.length;i++){
+    const lab = moods[i].label.toLowerCase().split(' ')[0];
+    if(lab === s) return i;
+  }
+  return 0;
+}
 
-      const registro = { data, emocao, cor, motivo, mensagem };
-      let registros = JSON.parse(localStorage.getItem('registrosSelah')) || [];
-      registros.push(registro);
-      localStorage.setItem('registrosSelah', JSON.stringify(registros));
+/* load registro for editingDateDisplay if exists */
+function loadForDate(dateDisplay){
+  dateInfo.textContent = 'Data: ' + dateDisplay;
+  const registros = getRegistros();
+  const registro = registros.find(r => r.data === dateDisplay);
+  if(registro){
+    // set mood slider from registro.emocao
+    const idx = findMoodIndexByEmocao(registro.emocao);
+    slider.value = idx;
+    // populate motivos and preselect
+    const pre = registro.motivos && registro.motivos.length ? registro.motivos : (registro.motivo ? registro.motivo.split(',').map(s=>s.trim()) : []);
+    setMoodByIndex(idx, true); // set ball, but avoid clearing motifs right away
+    populateMotivos(moods[idx].key, pre);
+    // set message
+    mensagemEl.value = registro.mensagem || '';
+    deleteBtn.style.display = 'inline-block';
+  } else {
+    // no registro: neutral initialize
+    const neutralIdx = 0; // calm as default
+    slider.value = neutralIdx;
+    setMoodByIndex(neutralIdx);
+    populateMotivos(moods[neutralIdx].key);
+    mensagemEl.value = '';
+    deleteBtn.style.display = 'none';
+  }
+}
 
-      alert("Dia registrado com sucesso 💙");
-      window.location.href = "calendario.html";
-    });
+/* Save function (uses editing date if provided, else today) */
+function saveRegistro(){
+  const idx = parseInt(slider.value,10);
+  const cfg = moods[idx];
+  const motivosArray = Array.from(selectedMotivos);
+  const mensagem = mensagemEl.value.trim();
+  const data = editingDateDisplay || ddmmyyyyToday();
 
-    atualizarEmocao(3);
-  </script>
+  const novo = {
+    data,
+    emocao: cfg.key.charAt(0).toUpperCase() + cfg.key.slice(1),
+    cor: cfg.color,
+    motivos: motivosArray,
+    mensagem: mensagem || ''
+  };
 
- <footer>
-  <hr>
-  <p>Selah © 2025 — Projeto de Saúde Mental Estudantil</p>
-</footer>
+  let registros = getRegistros();
+  const existingIdx = registros.findIndex(r => r.data === data);
+  if(existingIdx >= 0){
+    registros[existingIdx] = novo;
+  } else {
+    registros.push(novo);
+  }
+  saveRegistros(registros);
+  alert('Registro salvo com sucesso!');
+  // volta ao calendário
+  window.location.href = 'calendario.html';
+}
 
+/* Delete function */
+function deleteRegistro(){
+  if(!confirm('Deseja apagar este registro?')) return;
+  const data = editingDateDisplay || ddmmyyyyToday();
+  let registros = getRegistros();
+  registros = registros.filter(r => r.data !== data);
+  saveRegistros(registros);
+  alert('Registro apagado.');
+  window.location.href = 'calendario.html';
+}
+
+/* Back */
+function voltarCalendario(){ window.location.href = 'calendario.html'; }
+
+/* init */
+(function init(){
+  // set neutral CSS vars
+  document.documentElement.style.setProperty('--color', '--color');
+  // show date
+  dateInfo.textContent = 'Data: ' + (editingDateDisplay || ddmmyyyyToday());
+  // if editing date provided, load registro; else initialize neutral
+  loadForDate(editingDateDisplay || ddmmyyyyToday());
+})();
+
+/* events */
+slider.addEventListener('input', (e)=> setMoodByIndex(parseInt(e.target.value,10)));
+saveBtn.addEventListener('click', saveRegistro);
+deleteBtn.addEventListener('click', deleteRegistro);
+backBtn.addEventListener('click', voltarCalendario);
+
+/* keyboard support: arrows adjust slider */
+document.addEventListener('keydown', (ev)=>{
+  if(ev.key === 'ArrowLeft'){ slider.value = Math.max(parseInt(slider.value)-1, parseInt(slider.min)); slider.dispatchEvent(new Event('input')); }
+  else if(ev.key === 'ArrowRight'){ slider.value = Math.min(parseInt(slider.value)+1, parseInt(slider.max)); slider.dispatchEvent(new Event('input')); }
+});
+</script>
 </body>
 </html>
+

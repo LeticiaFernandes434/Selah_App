@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selah — Suporte e Acolhimento</title>
+
+  <!-- Bootstrap e fonte -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --azul-1:#b7c7e3;
+      --azul-2:#9cb3d9;
+      --azul-3:#7f9ccc;
+      --azul-4:#647fb8;
+      --azul-5:#4a639e;
+      --texto:#2b2e75;
+    }
+
+    body {
+      font-family: 'Cinzel Decorative', serif;
+      background: linear-gradient(135deg, var(--azul-1), var(--azul-2), var(--azul-3));
+      color: var(--texto);
+      margin: 0;
+      padding-top: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      background: rgba(255,255,255,0.92);
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      padding: 32px;
+      max-width: 900px;
+      width: 100%;
+      margin-bottom: 40px;
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: var(--azul-5);
+    }
+
+    .btn-custom {
+      background-color: var(--azul-4);
+      color: white;
+      border-radius: 10px;
+    }
+
+    .btn-custom:hover {
+      background-color: var(--azul-5);
+      color: white;
+    }
+
+    footer {
+      width: 100%;
+      text-align: center;
+      color: var(--texto);
+      padding: 16px;
+      background: rgba(255,255,255,0.5);
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  font-family: 'Cinzel Decorative', serif;
+">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold" href="index.html" style="color:#2b2e75; font-size:1.4rem;">
+      Selah
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navSelah">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navSelah">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item mx-2"><a class="nav-link" href="início.html">Início</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="equipe.html">Equipe</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="humor.html">Humor</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="calendario.html">Calendário</a></li>
+        <li class="nav-item mx-2"><a class="nav-link" href="dicas.html">Dicas</a></li>
+        <li class="nav-item mx-2"><a class="nav-link active" href="suporte.html">Suporte</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Conteúdo -->
+<div class="container mt-4">
+
+  <h2 class="mb-4">Você não está sozinha(o)</h2>
+  <p class="text-center mb-4" style="color:#2b2e75c9;">
+    Tudo bem pedir ajuda. O Selah foi criado para te lembrar disso — e aqui você pode buscar apoio quando sentir necessidade.
+  </p>
+
+  <!-- Contatos de emergência -->
+  <h3 class="mt-4 mb-3">Canais de apoio imediato</h3>
+  <ul class="list-group mb-4">
+    <li class="list-group-item">📞 CVV — <strong>188</strong> (ligação gratuita e anônima, 24h)</li>
+    <li class="list-group-item">🚑 SAMU — <strong>192</strong></li>
+    <li class="list-group-item">🏥 Emergência Hospitalar — procure o pronto atendimento mais próximo</li>
+  </ul>
+
+  <div class="d-flex justify-content-center mb-4 gap-3 flex-wrap">
+    <a href="https://cvv.org.br/chat/" class="btn btn-danger">Chat com o CVV</a>
+    <a href="mailto:suporte@selah.com" class="btn btn-custom">Enviar e-mail ao suporte</a>
+  </div>
+
+  <!-- Formulário -->
+  <h3 class="mb-3">Envie uma mensagem</h3>
+  <form>
+    <div class="mb-3">
+      <label for="nome" class="form-label">Seu nome</label>
+      <input type="text" class="form-control" id="nome" placeholder="Digite seu nome...">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">E-mail</label>
+      <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail...">
+    </div>
+    <div class="mb-3">
+      <label for="mensagem" class="form-label">Mensagem</label>
+      <textarea class="form-control" id="mensagem" rows="4" placeholder="Como podemos te ajudar?"></textarea>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-custom px-4">Enviar</button>
+    </div>
+  </form>
+
+  <!-- FAQ -->
+  <h3 class="mt-5 mb-3">Dúvidas frequentes</h3>
+  <div class="accordion" id="faqSelah">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="faq1">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#resposta1">
+          O que é o Selah?
+        </button>
+      </h2>
+      <div id="resposta1" class="accordion-collapse collapse" data-bs-parent="#faqSelah">
+        <div class="accordion-body">
+          O Selah é um projeto estudantil de apoio emocional e autocuidado, criado para incentivar pausas e reflexões diárias sobre o bem-estar mental.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="faq2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#resposta2">
+          Como o Selah pode me ajudar?
+        </button>
+      </h2>
+      <div id="resposta2" class="accordion-collapse collapse" data-bs-parent="#faqSelah">
+        <div class="accordion-body">
+          Através do registro de emoções, mensagens reflexivas e práticas simples de respiração e autocuidado, você pode acompanhar e compreender melhor seus sentimentos ao longo do tempo.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="faq3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#resposta3">
+          As informações que eu coloco são privadas?
+        </button>
+      </h2>
+      <div id="resposta3" class="accordion-collapse collapse" data-bs-parent="#faqSelah">
+        <div class="accordion-body">
+          Sim. Nenhuma informação é enviada para fora do seu dispositivo. Tudo é salvo apenas localmente, garantindo sua privacidade e segurança.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <hr>
+  <p>Selah © 2025 — Projeto de Saúde Mental Estudantil</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

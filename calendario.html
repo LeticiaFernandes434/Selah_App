@@ -169,6 +169,7 @@
         <li class="nav-item mx-2"><a class="nav-link" href="humor.html">Humor</a></li>
         <li class="nav-item mx-2"><a class="nav-link active" href="calendario.html">Calendário</a></li>
         <li class="nav-item mx-2"><a class="nav-link" href="dicas.html">Dicas</a></li>
+        <li class="nav-item mx-2"><a class="nav-link active" href="suporte.html">Suporte</a></li>
       </ul>
     </div>
   </div>
@@ -275,201 +276,190 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script>
-    // -------- utilitários de data/format --------
-    function pad(n){ return n.toString().padStart(2,'0'); }
-    function formatDDMMYYYY(d,m,y){ return pad(d) + '/' + pad(m) + '/' + y; }
+ <script>
+  // -------- utilitários de data/format --------
+  function pad(n){ return n.toString().padStart(2,'0'); }
+  function formatDDMMYYYY(d,m,y){ return pad(d) + '/' + pad(m) + '/' + y; }
 
-    // converter dd/mm/yyyy para objeto {d,m,y}
-    function parseDMY(str){
-      const parts = str.split('/');
-      return { d: parseInt(parts[0],10), m: parseInt(parts[1],10), y: parseInt(parts[2],10) };
+  function parseDMY(str){
+    const parts = str.split('/');
+    return { d: parseInt(parts[0],10), m: parseInt(parts[1],10), y: parseInt(parts[2],10) };
+  }
+
+  function weekdayIndexMonday(y,m,d){
+    const idx = new Date(y, m-1, d).getDay();
+    return (idx + 6) % 7;
+  }
+
+  // -------- registros no localStorage ----------
+  const STORAGE_KEY = 'registrosSelah';
+
+  function getRegistros(){
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  }
+  function saveRegistros(arr){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+
+  // -------- calendário variáveis --------
+  let hoje = new Date();
+  let currentMonth = hoje.getMonth() + 1;
+  let currentYear = hoje.getFullYear();
+
+  const calendarEl = document.getElementById('calendar');
+  const mesAnoEl = document.getElementById('mesAno');
+  const mesPoemaEl = document.getElementById('mesPoema');
+
+  const modalEl = new bootstrap.Modal(document.getElementById('modalRegistro'));
+  const modalDataInput = document.getElementById('modalData');
+  const modalEmocao = document.getElementById('modalEmocao');
+  const modalMotivo = document.getElementById('modalMotivo');
+  const modalMensagem = document.getElementById('modalMensagem');
+  const btnDelete = document.getElementById('btnDelete');
+  const formModal = document.getElementById('formModal');
+
+  // renderizar calendário
+  function renderCalendar(month, year){
+    calendarEl.innerHTML = '';
+    const firstDay = new Date(year, month-1, 1);
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const firstIdx = (firstDay.getDay() + 6) % 7;
+    for(let i=0;i<firstIdx;i++){
+      const empty = document.createElement('div');
+      empty.classList.add('day');
+      empty.style.background = 'transparent';
+      empty.style.boxShadow = 'none';
+      empty.style.cursor = 'default';
+      calendarEl.appendChild(empty);
     }
 
-    // retorna índice do dia da semana começando na segunda (0=seg)
-    function weekdayIndexMonday(y,m,d){
-      // JS month index zero-based
-      const idx = new Date(y, m-1, d).getDay(); // 0 = dom
-      return (idx + 6) % 7; // convert: dom->6, seg->0 ...
-    }
+    const registros = getRegistros();
 
-    // -------- registros no localStorage ----------
-    const STORAGE_KEY = 'registrosSelah';
+    for(let d=1; d <= daysInMonth; d++){
+      const cell = document.createElement('div');
+      cell.classList.add('day');
+      const num = document.createElement('div');
+      num.classList.add('day-number');
+      num.textContent = d;
+      cell.appendChild(num);
 
-    function getRegistros(){
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    }
-    function saveRegistros(arr){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-    }
-
-    // -------- calendário variáveis --------
-    let hoje = new Date();
-    let currentMonth = hoje.getMonth() + 1; // 1..12
-    let currentYear = hoje.getFullYear();
-
-    const calendarEl = document.getElementById('calendar');
-    const mesAnoEl = document.getElementById('mesAno');
-    const mesPoemaEl = document.getElementById('mesPoema');
-
-    const modalEl = new bootstrap.Modal(document.getElementById('modalRegistro'));
-    const modalDataInput = document.getElementById('modalData');
-    const modalEmocao = document.getElementById('modalEmocao');
-    const modalMotivo = document.getElementById('modalMotivo');
-    const modalMensagem = document.getElementById('modalMensagem');
-    const btnDelete = document.getElementById('btnDelete');
-    const formModal = document.getElementById('formModal');
-
-    // abre calendário
-    function renderCalendar(month, year){
-      calendarEl.innerHTML = '';
-      const firstDay = new Date(year, month-1, 1);
-      const daysInMonth = new Date(year, month, 0).getDate();
-
-      // qual índice do primeiro dia (segunda=0)
-      const firstIdx = (firstDay.getDay() + 6) % 7;
-
-      // preencher células vazias antes do dia 1
-      for(let i=0;i<firstIdx;i++){
-        const empty = document.createElement('div');
-        empty.classList.add('day');
-        empty.style.background = 'transparent';
-        empty.style.boxShadow = 'none';
-        empty.style.cursor = 'default';
-        calendarEl.appendChild(empty);
-      }
-
-      // pegar registros do storage
-      const registros = getRegistros();
-
-      // criar dias
-      for(let d=1; d <= daysInMonth; d++){
-        const cell = document.createElement('div');
-        cell.classList.add('day');
-        const num = document.createElement('div');
-        num.classList.add('day-number');
-        num.textContent = d;
-        cell.appendChild(num);
-
-        const fullDate = formatDDMMYYYY(d, month, year);
-
-        // verificar se existe registro para essa data
-        const registro = registros.find(r => r.data === fullDate);
-
-        if(registro){
-          // bolinha
-          const dot = document.createElement('div');
-          dot.classList.add('dot');
-          dot.style.backgroundColor = registro.cor || '#9ad1c9';
-          cell.appendChild(dot);
-        }
-
-        // clicar no dia
-        cell.addEventListener('click', () => {
-          openModalForDate(fullDate, registro);
-        });
-
-        calendarEl.appendChild(cell);
-      }
-
-      // atualizar título do mês
-      const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-      mesAnoEl.textContent = monthNames[month-1] + ' de ' + year;
-
-      // poema customizado (exemplo)
-      mesPoemaEl.textContent = `“Cada dia é um tom na aquarela da sua mente.”`;
-    }
-
-    // abrir modal para ver/editar/adicionar
-    function openModalForDate(dateStr, registro){
-      modalDataInput.value = dateStr;
+      const fullDate = formatDDMMYYYY(d, month, year);
+      const registro = registros.find(r => r.data === fullDate);
 
       if(registro){
-        // preencher com registro atual
-        modalEmocao.value = registro.emocao || '';
-        modalMotivo.value = registro.motivo || '';
-        modalMensagem.value = registro.mensagem || '';
-        btnDelete.style.display = 'inline-block';
-        document.getElementById('modalTitle').textContent = 'Visualizar / Editar registro';
-      } else {
-        // limpar para criar novo
-        modalEmocao.value = '';
-        modalMotivo.value = '';
-        modalMensagem.value = '';
-        btnDelete.style.display = 'none';
-        document.getElementById('modalTitle').textContent = 'Adicionar registro';
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        dot.style.backgroundColor = registro.cor || '#9ad1c9';
+        cell.appendChild(dot);
       }
 
-      modalEl.show();
+      cell.addEventListener('click', () => {
+  // abrir a página de edição do humor para essa data
+  const isoDate = `${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  window.location.href = `humor.html?date=${isoDate}`;
+});
+
+      calendarEl.appendChild(cell);
     }
 
-    // salvar (novo ou editar)
-    formModal.addEventListener('submit', (ev) => {
-      ev.preventDefault();
-      const data = modalDataInput.value;
-      const emocao = modalEmocao.value;
-      const motivo = modalMotivo.value;
-      const mensagem = modalMensagem.value;
+    const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    mesAnoEl.textContent = monthNames[month-1] + ' de ' + year;
+    mesPoemaEl.textContent = `“Cada dia é um tom na aquarela da sua mente.”`;
+  }
 
-      if(!emocao || !motivo){
-        alert('Por favor, escolha a emoção e o motivo.');
-        return;
-      }
+  // abrir modal
+  function openModalForDate(dateStr, registro){
+    modalDataInput.value = dateStr;
 
-      // pegar cor escolhida a partir do option selecionado
-      const selectedOpt = modalEmocao.options[modalEmocao.selectedIndex];
-      const cor = selectedOpt.dataset.cor || '#9ad1c9';
+    if(registro){
+      // mostra dados vindos do humor.html
+      modalEmocao.value = registro.emocao || '';
+      modalMotivo.value = (registro.motivos && registro.motivos.length)
+        ? registro.motivos.join(', ')
+        : (registro.motivo || '');
+      modalMensagem.value = registro.mensagem || '';
+      btnDelete.style.display = 'inline-block';
+      document.getElementById('modalTitle').textContent = 'Visualizar / Editar registro';
+    } else {
+      modalEmocao.value = '';
+      modalMotivo.value = '';
+      modalMensagem.value = '';
+      btnDelete.style.display = 'none';
+      document.getElementById('modalTitle').textContent = 'Adicionar registro';
+    }
 
-      let registros = getRegistros();
+    modalEl.show();
+  }
 
-      // checar se já existe e substituir
-      const idx = registros.findIndex(r => r.data === data);
-      const novo = { data, emocao, cor, motivo, mensagem };
+  // salvar (novo ou editar)
+  formModal.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const data = modalDataInput.value;
+    const emocao = modalEmocao.value;
+    let motivoInput = modalMotivo.value;
+    const mensagem = modalMensagem.value;
 
-      if(idx >= 0){
-        registros[idx] = novo;
-      } else {
-        registros.push(novo);
-      }
+    if(!emocao){
+      alert('Por favor, escolha ou digite a emoção.');
+      return;
+    }
 
-      saveRegistros(registros);
-      modalEl.hide();
-      renderCalendar(currentMonth, currentYear);
-    });
+    // separa motivos por vírgula se houver vários
+    const motivos = motivoInput
+      ? motivoInput.split(',').map(m => m.trim()).filter(Boolean)
+      : [];
 
-    // apagar registro
-    btnDelete.addEventListener('click', () => {
-      if(!confirm('Deseja apagar este registro? Essa ação não pode ser desfeita.')) return;
-      const data = modalDataInput.value;
-      let registros = getRegistros();
-      registros = registros.filter(r => r.data !== data);
-      saveRegistros(registros);
-      modalEl.hide();
-      renderCalendar(currentMonth, currentYear);
-    });
+    // pega cor do option se existir
+    const selectedOpt = modalEmocao.options[modalEmocao.selectedIndex];
+    const cor = selectedOpt?.dataset?.cor || '#9ad1c9';
 
-    // navegação de mês
-    document.getElementById('prevMonth').addEventListener('click', () => {
-      currentMonth--;
-      if(currentMonth < 1){ currentMonth = 12; currentYear--; }
-      renderCalendar(currentMonth, currentYear);
-    });
+    let registros = getRegistros();
+    const idx = registros.findIndex(r => r.data === data);
+    const novo = { data, emocao, cor, motivos, mensagem };
 
-    document.getElementById('nextMonth').addEventListener('click', () => {
-      currentMonth++;
-      if(currentMonth > 12){ currentMonth = 1; currentYear++; }
-      renderCalendar(currentMonth, currentYear);
-    });
+    if(idx >= 0){
+      registros[idx] = novo;
+    } else {
+      registros.push(novo);
+    }
 
-    document.getElementById('btnHoje').addEventListener('click', () => {
-      hoje = new Date();
-      currentMonth = hoje.getMonth() + 1;
-      currentYear = hoje.getFullYear();
-      renderCalendar(currentMonth, currentYear);
-    });
-
-    // inicializar com mês atual
+    saveRegistros(registros);
+    modalEl.hide();
     renderCalendar(currentMonth, currentYear);
-  </script>
+  });
+
+  // apagar registro
+  btnDelete.addEventListener('click', () => {
+    if(!confirm('Deseja apagar este registro?')) return;
+    const data = modalDataInput.value;
+    let registros = getRegistros().filter(r => r.data !== data);
+    saveRegistros(registros);
+    modalEl.hide();
+    renderCalendar(currentMonth, currentYear);
+  });
+
+  // navegação
+  document.getElementById('prevMonth').addEventListener('click', () => {
+    currentMonth--;
+    if(currentMonth < 1){ currentMonth = 12; currentYear--; }
+    renderCalendar(currentMonth, currentYear);
+  });
+
+  document.getElementById('nextMonth').addEventListener('click', () => {
+    currentMonth++;
+    if(currentMonth > 12){ currentMonth = 1; currentYear++; }
+    renderCalendar(currentMonth, currentYear);
+  });
+
+  document.getElementById('btnHoje').addEventListener('click', () => {
+    hoje = new Date();
+    currentMonth = hoje.getMonth() + 1;
+    currentYear = hoje.getFullYear();
+    renderCalendar(currentMonth, currentYear);
+  });
+
+  renderCalendar(currentMonth, currentYear);
+</script>
+
 </body>
 </html>
