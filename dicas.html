@@ -6,10 +6,7 @@
   <title>Selah - Espaço de Conforto</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
-
-<!-- Fonte e Bootstrap -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
     body {
@@ -18,7 +15,7 @@
       min-height: 100vh;
       color: #2b2e75;
       text-align: center;
-      padding-top: 60px;
+      padding-top: 80px;
       transition: background 2s ease;
     }
 
@@ -43,11 +40,11 @@
       transition: 0.3s;
     }
 
-    .btn-selah:hover {
+    .btn-selah:hover, .btn-emocao.active {
       background-color: #2b2e75;
+      color: white;
     }
 
-    /* Respiração guiada */
     #circulo-resp {
       width: 120px;
       height: 120px;
@@ -68,44 +65,88 @@
       font-size: 0.9rem;
       color: #5466a0;
     }
+
+    /* Botões de emoções */
+    .emocao-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 40px 0 20px;
+    }
+
+    .btn-emocao {
+      background-color: #5466a0;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+
+    .btn-emocao:hover {
+      background-color: #2b2e75;
+    }
+
+    /* Cards */
+    .card-emocao {
+      background-color: rgba(255,255,255,0.8);
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: transform 0.3s;
+    }
+
+    .card-emocao:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-title {
+      font-weight: 600;
+      color: #2b2e75;
+    }
+
+    @media (max-width: 768px) {
+      #circulo-resp {
+        width: 90px;
+        height: 90px;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    font-family: 'Cinzel Decorative', serif;">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold" href="index.html" style="color:#2b2e75; font-size:1.4rem;">
+        Selah
+      </a>
 
-<!-- Navbar Selah -->
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  font-family: 'Cinzel Decorative', serif;
-">
-  <div class="container-fluid px-4">
-    <a class="navbar-brand fw-bold" href="index.html" style="color:#2b2e75; font-size:1.4rem;">
-      Selah
-    </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navSelah">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navSelah">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse justify-content-end" id="navSelah">
-      <ul class="navbar-nav mb-2 mb-lg-0">
-        <li class="nav-item mx-2"><a class="nav-link" href="início.html">Início</a></li>
-        <li class="nav-item"><a class="nav-link" href="equipe.html">Equipe</a></li>
-        <li class="nav-item mx-2"><a class="nav-link" href="humor.html">Humor</a></li>
-        <li class="nav-item mx-2"><a class="nav-link" href="calendario.html">Calendário</a></li>
-        <li class="nav-item mx-2"><a class="nav-link active" href="dicas.html">Dicas</a></li>
-        <li class="nav-item mx-2"><a class="nav-link active" href="suporte.html">Suporte</a></li>
-      </ul>
+      <div class="collapse navbar-collapse justify-content-center" id="navSelah">
+        <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
+          <li class="nav-item"><a class="nav-link" href="início.html">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="equipe.html">Equipe</a></li>
+          <li class="nav-item"><a class="nav-link" href="humor.html">Humor</a></li>
+          <li class="nav-item"><a class="nav-link" href="calendario.html">Calendário</a></li>
+          <li class="nav-item"><a class="nav-link" href="grafico.html">Gráfico</a></li>
+          <li class="nav-item"><a class="nav-link" href="dicas.html">Dicas</a></li>
+          <li class="nav-item"><a class="nav-link" href="suporte.html">Suporte</a></li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- espaço extra abaixo da navbar -->
-<div style="height:80px;"></div>
-
-
-
+  <!-- Conteúdo -->
   <div class="container">
     <h1>Espaço de Conforto</h1>
     <p id="frase-dia">Carregando sua mensagem...</p>
@@ -115,13 +156,27 @@
 
     <hr class="my-4">
 
-    <button id="btn-respirar" class="btn-selah">🌿 Selah Moment</button>
+    <button id="btn-respirar" class="btn-selah">🌿 Selah Momento</button>
 
     <div id="circulo-resp"></div>
     <p id="frase-resp"></p>
 
     <hr class="my-4">
 
+    <h3>Encontre conforto de acordo com sua emoção</h3>
+    <div class="emocao-container">
+      <button class="btn-emocao" data-emocao="calma"> Calma</button>
+      <button class="btn-emocao" data-emocao="felicidade"> Felicidade</button>
+      <button class="btn-emocao" data-emocao="tristeza"> Tristeza</button>
+      <button class="btn-emocao" data-emocao="raiva"> Raiva</button>
+      <button class="btn-emocao" data-emocao="amor"> Amor</button>
+      <button class="btn-emocao" data-emocao="ansiedade"> Ansiedade</button>
+      <button class="btn-emocao" id="mostrar-todas"> Mostrar todas</button>
+    </div>
+
+    <div id="cards-container" class="row justify-content-center mt-4"></div>
+
+    <hr class="my-4">
     <button id="btn-voltar" class="btn-selah">Registrar como estou agora</button>
   </div>
 
@@ -129,38 +184,29 @@
   <audio id="audio-chuva" src="chuva.mp3" loop></audio>
   <audio id="audio-mar" src="mar.mp3" loop></audio>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Mensagens por humor
+    // Frases do dia
     const mensagens = {
-      triste: [
-        "Tudo bem fazer uma pausa hoje.",
-        "Inspire calma, expire o peso.",
-        "Permita-se sentir. O sol vai voltar."
-      ],
-      ansioso: [
-        "Respire fundo. Você está seguro agora.",
-        "Nem tudo precisa ser resolvido hoje.",
-        "Acalme o ritmo. O presente é suficiente."
-      ],
-      neutro: [
-        "Apenas estar é suficiente.",
-        "Observe o agora — sem pressa, sem cobrança.",
-        "Equilíbrio também é paz."
-      ],
-      alegre: [
-        "Guarde este momento de leveza no coração.",
-        "Espalhe a calma que você carrega.",
-        "Sorrir é um ato de coragem e luz."
-      ],
-      estressado: [
-        "Solte os ombros. Você não precisa controlar tudo.",
-        "Respire e volte pra você.",
-        "Pausa também é progresso."
-      ]
+      calma: ["Hoje é um bom dia para respirar com leveza.", "Permita-se apenas ser, sem pressa.", "A paz está em você."],
+      felicidade: ["Sinta a alegria expandir dentro de você!", "Sorrir é um presente que ilumina.", "Celebre o agora."],
+      tristeza: ["Tudo bem não estar bem o tempo todo.", "Permita-se sentir, isso também é coragem.", "A dor não é eterna — o amanhecer sempre chega."],
+      raiva: ["Respire antes de reagir.", "Você pode transformar essa energia em movimento.", "A raiva também é um sinal — ouça o que ela quer te mostrar."],
+      amor: ["Você é digno de amor e carinho.", "Espalhe gentileza — ela volta para você.", "O amor começa em si mesmo."],
+      ansiedade: ["Respire fundo. Você está seguro agora.", "Não é preciso ter controle de tudo.", "Viva um instante por vez."]
     };
 
-    // Pega humor salvo (simulado)
-    const humor = localStorage.getItem("humorSelah") || "neutro";
+    const dicas = {
+      calma: ["Desconecte por 5 minutos e apenas observe sua respiração.", "Escute uma música tranquila e feche os olhos.", "Observe algo bonito ao seu redor."],
+      felicidade: ["Compartilhe um elogio hoje.", "Dance por 1 minuto sem pensar.", "Anote o motivo do seu sorriso de hoje."],
+      tristeza: ["Escreva o que sente sem se julgar.", "Assista algo leve e acolhedor.", "Abrace algo que te traga conforto."],
+      raiva: ["Respire fundo 3 vezes antes de responder.", "Faça algo físico: caminhe, alongue, mova o corpo.", "Transforme o incômodo em ação produtiva."],
+      amor: ["Envie uma mensagem carinhosa para alguém.", "Olhe-se no espelho e diga algo gentil.", "Lembre-se de um momento em que se sentiu amado."],
+      ansiedade: ["Tente a respiração 4-4-4 (inspire 4s, segure 4s, expire 4s).", "Anote seus pensamentos para liberar a mente.", "Faça algo que envolva os sentidos: cheiro, toque, som."]
+    };
+
+    // Humor do dia
+    const humor = localStorage.getItem("humorSelah") || "calma";
     const fraseDia = mensagens[humor][Math.floor(Math.random() * mensagens[humor].length)];
     document.getElementById("frase-dia").innerText = fraseDia;
 
@@ -172,37 +218,26 @@
 
     document.getElementById("btn-som").addEventListener("click", () => {
       if (somAtual === "chuva") {
-        audioChuva.pause();
-        audioMar.play();
-        somAtual = "mar";
+        audioChuva.pause(); audioMar.play(); somAtual = "mar";
         document.getElementById("btn-som").innerText = "🌊 Som: Mar";
       } else if (somAtual === "mar") {
-        audioMar.pause();
-        somAtual = "off";
+        audioMar.pause(); somAtual = "off";
         document.getElementById("btn-som").innerText = "🔇 Som: Desligado";
       } else {
-        audioChuva.play();
-        somAtual = "chuva";
+        audioChuva.play(); somAtual = "chuva";
         document.getElementById("btn-som").innerText = "🌧️ Som: Chuva";
       }
     });
 
     // Respiração guiada
     const frasesResp = [
-      "Inspire calma...",
-      "Expire o peso que não é seu...",
-      "Permaneça aqui, agora...",
-      "Sinta o ar entrando...",
-      "Solte o que te aperta..."
+      "Inspire calma...", "Expire o peso que não é seu...", "Permaneça aqui, agora...", "Sinta o ar entrando...", "Solte o que te aperta..."
     ];
-
     let intervaloResp = null;
     document.getElementById("btn-respirar").addEventListener("click", () => {
       const circulo = document.getElementById("circulo-resp");
       const fraseResp = document.getElementById("frase-resp");
-      let index = 0;
-      let expandindo = true;
-
+      let index = 0, expandindo = true;
       fraseResp.innerText = frasesResp[index];
       intervaloResp = setInterval(() => {
         circulo.style.transform = expandindo ? "scale(1.3)" : "scale(1)";
@@ -210,19 +245,117 @@
         index = (index + 1) % frasesResp.length;
         fraseResp.innerText = frasesResp[index];
       }, 4000);
-
-      // Para após 1 minuto
-      setTimeout(() => {
-        clearInterval(intervaloResp);
+      setTimeout(() => { clearInterval(intervaloResp);
         circulo.style.transform = "scale(1)";
         fraseResp.innerText = "Tudo bem. Você respirou. Está presente.";
       }, 60000);
     });
 
-    // Voltar ao humor (ainda não implementado)
+    // Emoções com cards
+    const cardsContainer = document.getElementById("cards-container");
+    const botoesEmocao = document.querySelectorAll(".btn-emocao");
+
+    botoesEmocao.forEach(btn => {
+      btn.addEventListener("click", () => {
+        botoesEmocao.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const emocao = btn.dataset.emocao;
+        cardsContainer.innerHTML = "";
+
+        if (emocao === undefined && btn.id === "mostrar-todas") {
+          Object.keys(dicas).forEach(key => criarCards(key));
+        } else {
+          criarCards(emocao);
+        }
+      });
+    });
+
+    function criarCards(emocao) {
+      dicas[emocao].forEach(texto => {
+        const card = document.createElement("div");
+        card.className = "col-md-4 col-sm-6";
+        card.innerHTML = `
+          <div class="card-emocao h-100">
+            <h5 class="card-title">${texto}</h5>
+          </div>`;
+        cardsContainer.appendChild(card);
+      });
+    }
+
+    // Voltar
     document.getElementById("btn-voltar").addEventListener("click", () => {
-      window.location.href = "humor.html"; // pode mudar conforme o nome da sua tela
+      window.location.href = "humor.html";
     });
   </script>
+
+
+
+<div class="container my-5">
+  <h2 class="mb-4" style="color:#2b2e75;">Artigos sobre Saúde Emocional</h2>
+
+  <div class="row justify-content-center g-4">
+    <!-- Card 1 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card h-100 shadow-sm border-0" style="border-radius: 15px;">
+        <img src="imagens/ansiedade.jpg" class="card-img-top" alt="Ansiedade">
+        <div class="card-body">
+          <h5 class="card-title">Como Lidar com a Ansiedade</h5>
+          <p class="card-text">Aprenda técnicas simples de respiração e estratégias práticas para aliviar a ansiedade no dia a dia.</p>
+          <a href="cards artigos/artigo1.html" class="btn btn-primary" style="background-color:#5466a0; border:none;">Ler mais</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card h-100 shadow-sm border-0" style="border-radius: 15px;">
+        <img src="imagens/depressao.jpg" class="card-img-top" alt="Depressão">
+        <div class="card-body">
+          <h5 class="card-title">Entendendo a Depressão</h5>
+          <p class="card-text">Compreenda os sinais, causas e formas de oferecer apoio a quem enfrenta a depressão.</p>
+          <a href="cards artigos/artigo2.html" class="btn btn-primary" style="background-color:#5466a0; border:none;">Ler mais</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card h-100 shadow-sm border-0" style="border-radius: 15px;">
+        <img src="imagens/autocuidado.jpg" class="card-img-top" alt="Autocuidado">
+        <div class="card-body">
+          <h5 class="card-title">A Importância do Autocuidado</h5>
+          <p class="card-text">Descubra como pequenas ações diárias podem transformar sua saúde mental e emocional.</p>
+          <a href="cards artigos/artigo3.html" class="btn btn-primary" style="background-color:#5466a0; border:none;">Ler mais</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card h-100 shadow-sm border-0" style="border-radius: 15px;">
+        <img src="imagens/relacionamentos.jpg" class="card-img-top" alt="Relacionamentos">
+        <div class="card-body">
+          <h5 class="card-title">Entendendo a Raiva</h5>
+          <p class="card-text">Entenda como a empatia e a comunicação fortalecem os vínculos e promovem o bem-estar.</p>
+          <a href="cards artigos/artigo4.html" class="btn btn-primary" style="background-color:#5466a0; border:none;">Ler mais</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card h-100 shadow-sm border-0" style="border-radius: 15px;">
+        <img src="imagens/autoconhecimento.jpg" class="card-img-top" alt="Autoconhecimento">
+        <div class="card-body">
+          <h5 class="card-title">Como cultivar a felicidade de forma simples</h5>
+          <p class="card-text">Conheça formas de se reconectar consigo mesmo e compreender melhor suas emoções.</p>
+          <a href="cards artigos/artigo5.html" class="btn btn-primary" style="background-color:#5466a0; border:none;">Ler mais</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

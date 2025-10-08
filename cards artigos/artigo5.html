@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selah - Cultivar a felicidade</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {font-family:'Cinzel',serif;background:linear-gradient(160deg,#E6D9F7,#F7EBD9);color:#2b2e75;padding-top:100px;text-align:center;}
+    .container{max-width:800px;}
+    img{width:100%;border-radius:15px;margin-bottom:20px;}
+    p{text-align:justify;line-height:1.8;}
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg fixed-top" style="background:rgba(255,255,255,0.7);backdrop-filter:blur(8px);box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold" href="index.html" style="color:#2b2e75;font-family:'Cinzel Decorative',serif;">Selah</a>
+    </div>
+  </nav>
+
+  <div class="container my-5">
+    <img src="https://i.imgur.com/IzmflE2.jpg" alt="Pessoa sorrindo ao pôr do sol">
+    <h1>Como cultivar a felicidade de forma simples</h1>
+    <p>A felicidade não é um destino, mas um caminho que se constrói nos pequenos momentos. Está presente nas pausas, nas conexões e nas coisas simples.</p>
+    <p>Pratique a gratidão, celebre conquistas diárias e permita-se descansar. A felicidade floresce quando a mente encontra calma no presente.</p>
+    <p>Mais do que buscar a alegria constante, aprenda a acolher todas as emoções — é isso que torna a vida completa.</p>
+  </div>
+
+
+
+  
+<section id="emocoes" class="py-5 text-center" style="background: linear-gradient(160deg, #E6D9F7, #F7EBD9);">
+  <div class="container">
+    <h2 class="fw-bold mb-4" style="color:#2b2e75; font-family: 'Cinzel Decorative', serif;">Encontre conforto para sua emoção</h2>
+    <p class="mb-5" style="color:#2b2e75;">Selecione como você se sente agora e descubra conteúdos que podem te trazer paz e clareza.</p>
+
+    <!-- Filtros de emoções -->
+    <div id="filtrosEmocoes" class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+      <button class="btn btn-outline-primary filtro-emocao active" data-emocao="todas" style="border-radius: 25px; background:#ffffff90; border: 2px solid #2b2e75; color:#2b2e75;">Todas</button>
+      <button class="btn btn-outline-primary filtro-emocao" data-emocao="ansiedade" style="border-radius: 25px; background:#ffffff90; border: 2px solid #2b2e75; color:#2b2e75;">Ansiedade</button>
+      <button class="btn btn-outline-primary filtro-emocao" data-emocao="tristeza" style="border-radius: 25px; background:#ffffff90; border: 2px solid #2b2e75; color:#2b2e75;">Tristeza</button>
+      <button class="btn btn-outline-primary filtro-emocao" data-emocao="raiva" style="border-radius: 25px; background:#ffffff90; border: 2px solid #2b2e75; color:#2b2e75;">Raiva</button>
+      <button class="btn btn-outline-primary filtro-emocao" data-emocao="amor" style="border-radius: 25px; background:#ffffff90; border: 2px solid #2b2e75; color:#2b2e75;">Amor</button>
+      <button class="btn btn-outline-primary filtro-emocao" data-emocao="felicidade" style="border-radius: 25px; background:#ffffff90; border: 2px solid #2b2e75; color:#2b2e75;">Felicidade</button>
+      <button class="btn btn-outline-primary filtro-emocao" data-emocao="calma" style="border-radius: 25px; background:#ffffff90; border: 2px solid #2b2e75; color:#2b2e75;">Calma</button>
+    </div>
+
+    <!-- Cards de artigos -->
+    <div class="row g-4 justify-content-center" id="cardsEmocoes">
+      <!-- Ansiedade -->
+      <div class="col-md-4 card-emocao" data-emocao="ansiedade">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="https://i.imgur.com/7O9h0sU.jpg" class="card-img-top" alt="Ansiedade">
+          <div class="card-body">
+            <h5 class="card-title fw-bold" style="color:#2b2e75;">Como lidar com a ansiedade</h5>
+            <p class="card-text" style="color:#2b2e75;">Aprenda estratégias para acalmar a mente e encontrar equilíbrio nos momentos de ansiedade.</p>
+            <a href="artigo1.html" class="btn btn-primary" style="background-color:#2b2e75; border:none;">Ler mais</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tristeza -->
+      <div class="col-md-4 card-emocao" data-emocao="tristeza">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="https://i.imgur.com/Tr4b0Kr.jpg" class="card-img-top" alt="Tristeza">
+          <div class="card-body">
+            <h5 class="card-title fw-bold" style="color:#2b2e75;">Como ajudar alguém com depressão</h5>
+            <p class="card-text" style="color:#2b2e75;">Entenda como oferecer apoio e empatia a quem enfrenta momentos difíceis.</p>
+            <a href="artigo2.html" class="btn btn-primary" style="background-color:#2b2e75; border:none;">Ler mais</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calma -->
+      <div class="col-md-4 card-emocao" data-emocao="calma">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="https://i.imgur.com/boIpW5L.jpg" class="card-img-top" alt="Calma">
+          <div class="card-body">
+            <h5 class="card-title fw-bold" style="color:#2b2e75;">O poder do autocuidado diário</h5>
+            <p class="card-text" style="color:#2b2e75;">Descubra como pequenos gestos diários podem nutrir seu bem-estar emocional.</p>
+            <a href="artigo3.html" class="btn btn-primary" style="background-color:#2b2e75; border:none;">Ler mais</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Raiva -->
+      <div class="col-md-4 card-emocao" data-emocao="raiva">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="https://i.imgur.com/mMRkflK.jpg" class="card-img-top" alt="Raiva">
+          <div class="card-body">
+            <h5 class="card-title fw-bold" style="color:#2b2e75;">Transformando a raiva em energia positiva</h5>
+            <p class="card-text" style="color:#2b2e75;">Saiba como acolher a raiva e transformá-la em impulso construtivo.</p>
+            <a href="artigo4.html" class="btn btn-primary" style="background-color:#2b2e75; border:none;">Ler mais</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Felicidade -->
+      <div class="col-md-4 card-emocao" data-emocao="felicidade amor">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="https://i.imgur.com/IzmflE2.jpg" class="card-img-top" alt="Felicidade">
+          <div class="card-body">
+            <h5 class="card-title fw-bold" style="color:#2b2e75;">Como cultivar a felicidade</h5>
+            <p class="card-text" style="color:#2b2e75;">Encontre alegria nas pequenas coisas e aprenda a celebrar o presente.</p>
+            <a href="artigo5.html" class="btn btn-primary" style="background-color:#2b2e75; border:none;">Ler mais</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Script do filtro -->
+<script>
+  const botoes = document.querySelectorAll('.filtro-emocao');
+  const cards = document.querySelectorAll('.card-emocao');
+
+  botoes.forEach(botao => {
+    botao.addEventListener('click', () => {
+      botoes.forEach(b => b.classList.remove('active'));
+      botao.classList.add('active');
+      const emocao = botao.getAttribute('data-emocao');
+
+      cards.forEach(card => {
+        if (emocao === 'todas' || card.getAttribute('data-emocao').includes(emocao)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
